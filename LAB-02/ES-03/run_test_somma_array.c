@@ -6,13 +6,16 @@
 
 # define M 20
 
-int run_test_case(char *tc_id, int n,int ele,int pos){
-    char input_fname[M], output_fname[M], oracle_fname[M];
-    int *in,*or;
+int run_test_case(char *tc_id, int n){
+    char input1_fname[M],input2_fname[M],output_fname[M], oracle_fname[M];
+    int *in1,*in2,*or,*tot;
 
     //nome file input
-    strcpy(input_fname,tc_id);
-    strcat(input_fname,"_input.txt");
+    strcpy(input1_fname,tc_id);
+    strcat(input1_fname,"_input1.txt");
+
+    strcpy(input2_fname,tc_id);
+    strcat(input2_fname,"_input2.txt");
 
     strcpy(output_fname,tc_id);
     strcat(output_fname,"_output.txt");
@@ -22,30 +25,31 @@ int run_test_case(char *tc_id, int n,int ele,int pos){
 
 
     // allochiamo memoria per array di input
-    in = xcalloc(n+1,sizeof(int));
-
+    in1 = xcalloc(n,sizeof(int));
+    in2 = xcalloc(n,sizeof(int));
     // carica file di input
-    finput_array(input_fname,in,n);
+    finput_array(input1_fname,in1,n);
+    finput_array(input2_fname,in2,n);
     // ordina array
-    inserisci(in,n,ele,pos);
+    tot = sommaArr(in1,in2,n);
     // scrive file di output
-    foutput_array(output_fname,in,n+1);
+    foutput_array(output_fname,tot,n);
 
     // allochiamo memoria per array oracolo
-    or = xcalloc(n+1,sizeof(int));
+    or = xcalloc(n,sizeof(int));
 
     // carichiamo oracolo
-    finput_array(oracle_fname,or,n+1);
+    finput_array(oracle_fname,or,n);
     // confrontiamo array
 
-    return confronta_array(in,or,n+1);
+    return confronta_array(tot,or,n);
 }
 
 int main(int argc, char *argv[])
 {
     FILE *test_suite, *result;
     char tc_id[M];  // stringa contenente l'identificativo del test case
-    int n, pass,ele,pos;
+    int n, pass;
 
     if(argc < 3){
          printf("Nomi dei file mancanti \n");
@@ -65,8 +69,8 @@ int main(int argc, char *argv[])
     l'identificativo del test case tc_id e il numero n di elementi
     da ordinare */
 
-    while(fscanf(test_suite, "%s%d%d%d", tc_id, &n,&ele,&pos) == 4){
-         pass = run_test_case(tc_id, n,ele,pos);
+    while(fscanf(test_suite, "%s%d", tc_id, &n) == 2){
+         pass = run_test_case(tc_id, n);
 
          fprintf(result,"%s ", tc_id);
          if(pass == 1)
