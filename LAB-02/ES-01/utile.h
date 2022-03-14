@@ -1,5 +1,4 @@
 // Interfaccia del modulo: file utile.h
-#include "stdlib.h"
 #include <stdlib.h>
 #include <stdio.h>
 /* Specifica della funzione scambia */
