@@ -44,10 +44,10 @@ int main(int argc, char *argv[])
     scontalibri(biblioteca, 2017, 12.8,n);
     stampaBiblioteca(biblioteca,n);
     stampaBiblioteca(trovalibriprezzosimile(biblioteca,n),2);
-    printf("%g\n",costototale(biblioteca, 2017,n));*/
+    printf("%g\n",costototale(biblioteca, 2017,n));
     stampaBiblioteca(biblioteca,n);
     n=eliminaLibri(biblioteca,2017,n);
-    stampaBiblioteca(biblioteca,n);
+    stampaBiblioteca(biblioteca,n);*/
 
   return 0;
 }
