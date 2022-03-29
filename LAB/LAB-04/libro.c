@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "libro.h"
 #include "utile.h"
 
@@ -13,8 +14,11 @@ struct miolibro{
 libro creaLibro(char *t, char* e, float p, int a){
   libro l = xmalloc(sizeof(*l));
 
-  l->titolo = t;
-  l->editore = e;
+  l->titolo = xcalloc(strlen(t)+1,sizeof(char));
+  l->editore = xcalloc(strlen(e)+1,sizeof(char));
+
+  strcpy(l->titolo,t);
+  strcpy(l->editore,e);
   l->prezzo = p;
   l->anno = a;
 

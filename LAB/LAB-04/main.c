@@ -46,8 +46,8 @@ int main(int argc, char *argv[])
     stampaBiblioteca(trovalibriprezzosimile(biblioteca,n),2);
     printf("%g\n",costototale(biblioteca, 2017,n));
     stampaBiblioteca(biblioteca,n);
-    n=eliminaLibri(biblioteca,2017,n);
-    stampaBiblioteca(biblioteca,n);*/
+    n=eliminaLibri(biblioteca,2017,n);*/
+    stampaBiblioteca(biblioteca,n);
 
   return 0;
 }
@@ -279,10 +279,12 @@ libro * loadLibroFile(char *fileName, int n)
 		exit(-1);
 	}
 
+  titolo = xcalloc(BUFFSIZE,sizeof(char));
+  editore = xcalloc(BUFFSIZE,sizeof(char));
+
   for(i=0;i<n;i++)
   {
-    titolo = xcalloc(BUFFSIZE,sizeof(char));
-    editore = xcalloc(BUFFSIZE,sizeof(char));
+
 
     fgets(titolo,BUFFSIZE,fd);
     fgets(editore,BUFFSIZE,fd);
@@ -292,8 +294,11 @@ libro * loadLibroFile(char *fileName, int n)
   }
 
 
+  free(titolo);
+  free(editore);
 
-	fclose(fd);
+  fclose(fd);
+
   return libri;
 }
 
