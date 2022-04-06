@@ -70,6 +70,11 @@ int sizeList (list l)
 {
   int n = 0;
 
+  if(!l)
+  {
+    return n;
+  }
+  
   for(n = 0;!emptyList(l);n++)
   {
     l = tailList(l);
