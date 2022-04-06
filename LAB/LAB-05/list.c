@@ -199,6 +199,7 @@ list removeList(list l,int pos)
   {
     l1=l;
     l=tailList(l);
+    free(l1->value);
     free(l1);
   }
   else
@@ -213,6 +214,7 @@ list removeList(list l,int pos)
     {
       l1=prec->next;
       prec->next = l1->next;
+      free(l1->value);
       free(l1);
     }
   }

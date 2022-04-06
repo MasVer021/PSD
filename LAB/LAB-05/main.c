@@ -7,10 +7,13 @@
 int contCoppDisMin(list l,float dis);
 item* coppPuntDisMax(list l);
 void riordina(list* l, char coordinata,char criterio);
+list sottoLista(list l,int m,int n);
+list inserisci_lista(list l,list k,int m);
 
 int main (int argc, char *argv[]){
   int i;
   list l = newList();
+  list k = newList();
 
 
     l=consList(creaItem(1,6),l);
@@ -20,9 +23,11 @@ int main (int argc, char *argv[]){
     l=consList(creaItem(-5,4),l);
     l=consList(creaItem(8.2,29),l);
 
-    printf("non ordinata\n");
-    outputList(l);
-    printf("ordinata per ascissa decrescente\n");
+    k=consList(creaItem(1,1),k);
+    k=consList(creaItem(2,2),k);
+
+
+    /*printf("ordinata per ascissa decrescente\n");
     riordina(&l,'a','d');
     outputList(l);
     printf("ordinata per ordinata decrescente\n");
@@ -33,7 +38,21 @@ int main (int argc, char *argv[]){
     outputList(l);
     printf("ordinata per ordinata crescente\n");
     riordina(&l,'o','c');
+    outputList(l);*/
+
+    /*output_item(coppPuntDisMax(l)[0]);
+    output_item(coppPuntDisMax(l)[1]);*/
+
+    /*list sub = sottoLista(l,1,2);
+    outputList(sub);
+    outputList(l);*/
+
+  /*  printf("l\n");
     outputList(l);
+    printf("k\n");
+    outputList(k);
+    l=inserisci_lista(l,k,2);*/
+
 	return 0;
 }
 
@@ -130,14 +149,47 @@ void riordina(list* l, char coordinata,char criterio)
       }
 
     }
-    ord = consList(getItem(*l,index), ord);
+    ord = consList(creaItem(ascissa(getItem(*l,index)),ordinata(getItem(*l,index))), ord);
     *l = removeList(*l,index);
 
   }
-  outputList(*l);
   if(criterio=='d')
   {
     ord = reverseList(ord);
   }
     *l=ord;
+}
+
+list sottoLista(list l,int m,int n)
+{
+  int i;
+  list sublist= newList();
+
+
+  for(i=m;i<=n;i++)
+  {
+    sublist=consList(creaItem(ascissa(getItem(l,i)),ordinata(getItem(l,i))), sublist);
+  }
+  for(i=m;i<=n;i++)
+  {
+    l = removeList(l,i);
+  }
+
+  return reverseList(sublist);
+}
+
+list inserisci_lista(list l,list k,int m)
+{
+  int i;
+  list inslist= newList();
+
+  for(i=0;i<sizeList(k);i++)
+  {
+    l=insertList(l,m+i,getItem(k,i));
+      outputList(l);
+  }
+
+
+
+  return inslist;
 }

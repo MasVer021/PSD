@@ -14,3 +14,4 @@ list reverseList (list l);
 void outputList (list l);
 list removeList(list l,int pos);
 list cloneList(list l);
+list insertList(list l,int pos,item val);
