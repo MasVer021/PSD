@@ -46,8 +46,8 @@ int main(int argc, char *argv[])
     stampaBiblioteca(trovalibriprezzosimile(biblioteca,n),2);
     printf("%g\n",costototale(biblioteca, 2017,n));
     stampaBiblioteca(biblioteca,n);
-    n=eliminaLibri(biblioteca,2017,n);*/
-    stampaBiblioteca(biblioteca,n);
+    n=eliminaLibri(biblioteca,2017,n);
+    stampaBiblioteca(biblioteca,n);*/
 
   return 0;
 }
