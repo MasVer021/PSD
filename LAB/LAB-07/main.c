@@ -13,15 +13,21 @@ int main(void)
   stack s = makeIntStack();
   stack inv = invertiStack(s);
   stack merged = merge(s,inv);
+  stack extract=invertiStack(inv);
 
-  printf("s");
-  s=estrazione(s,1);
+  printf("s\n");
   outputStack(s);
 
-  printf("s'");
+  printf("s'\n");
   outputStack(inv);
-  printf("s''");
+
+  printf("s''\n");
   outputStack(merged);
+
+
+  extract = estrazione(extract,1);
+  printf("estratto\n" );
+  outputStack(extract);
 
 
 }
@@ -47,8 +53,9 @@ stack makeIntStack (void)
 stack invertiStack(stack s)
 {
   stack inv;
-  list l,app;
-  int val;
+  list l;
+  int val,i,size;
+
 
   inv = newStack();
   l=newList();
@@ -56,31 +63,29 @@ stack invertiStack(stack s)
   while(!emptyStack(s))
   {
     val =getInt(top(s));
-    l=consList(creaItem(val),l);
+    insertList(l,0,creaItem(val));
     pop(s);
   }
-  app =l;
 
+  size = sizeList(l);
 
-  while(!emptyList(app))
+  for(i=0;i<size;i++)
   {
-    val =getInt(getFirst(app));
+    val =getInt(getItem(l,i));
     push(creaItem(val),s);
-    app=  tailList(app);
   }
 
-  app = reverseList(l);
+  l = reverseList(l);
 
-  while(!emptyList(app))
+  for(i=0;i<size;i++)
   {
-    val =getInt(getFirst(app));
+    val =getInt(getItem(l,i));
     push(creaItem(val),inv);
-    app=  tailList(app);
   }
 
   while(!emptyList(l))
   {
-    l=removeList(l,0);
+    removeList(l,0);
   }
 
 
@@ -122,6 +127,7 @@ stack estrazione(stack s, int n)
 
   app = invertiStack(s);
 
+
   while(!emptyStack(s))
   {
     pop(s);
@@ -129,6 +135,7 @@ stack estrazione(stack s, int n)
 
   while(!emptyStack(app))
   {
+
     val = getInt(top(app));
     if(val!=n)
     {
@@ -136,6 +143,7 @@ stack estrazione(stack s, int n)
     }
     pop(app);
   }
+
 
   return s;
 }

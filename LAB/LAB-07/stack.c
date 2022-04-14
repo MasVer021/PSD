@@ -30,23 +30,17 @@ int emptyStack(stack s)
 
 int push(item val,stack s)
 {
-  list pre = s->top;
-  s->top = insertList(s->top,0,val);
-
-  return pre!= s->top;
+  return insertList(s->top,0,val);;
 }
 
 
 int pop(stack s)
 {
-  list pre = s->top;
-  s->top = removeList(s->top,0);
-
-  return pre!= s->top;
+  return removeList(s->top,0);
 }
 
 item top(stack s)
 {
 
-  return getFirst(s->top);
+  return getItem(s->top,0);
 }

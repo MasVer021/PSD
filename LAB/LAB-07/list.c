@@ -3,114 +3,133 @@
 #include "item.h"
 #include "list.h"
 
-
-struct node {
-     item value;
-     struct node *next;
+struct c_list {
+  struct node *first;
+  int size;
 };
 
+struct node {
+  item value;
+  struct node *next;
+};
 
 list newList(void)
 {
-  return NULL;
+  struct c_list *l;
+  l=malloc(sizeof(*l));
+  if(l)
+  {
+    l->first = NULL;
+    l->size = 0;
+  }
+  return l;
 }
 
 int emptyList(list l)
 {
-  return l==NULL;
+  return l->size == 0;
 }
 
-list consList(item val, list l)
-{
-  struct node* new;
-  new = malloc(sizeof(*new));
 
-  if(new)
+
+static struct node* insertNode(struct node*l, int pos,item val)
+{
+  struct node *new,*prec;
+  int i;
+
+  prec = l;
+  new = malloc(sizeof(*new));
+  if(!new)
   {
-    new->value = val;
+    return NULL;
+  }
+  new->value = val;
+
+  if(pos == 0)
+  {
     new->next = l;
-    l=new;
+    return new;
+  }
+
+  for(i=0;i<pos-1 && prec!=NULL;i++)
+  {
+    prec = prec->next;
+  }
+  if(!prec)
+  {
+    free(new);
+    return NULL;
+  }
+  new->next = prec->next;
+  prec->next=new;
+  return l;
+}
+
+int insertList(list l,int pos,item val)
+{
+  struct node*tmp = insertNode(l->first,pos,val);
+  if(!tmp)
+  {
+    return 0;
+  }
+  l->first = tmp;
+  l->size++;
+  return 1;
+}
+
+
+
+static struct node *removeNode(struct node*l, int pos)
+{
+  struct node *l1,*prec;
+  int i;
+
+  if(pos == 0 && l)
+  {
+    l1 = l;
+    l=l->next;
+    free(l1->value);
+    free(l1);
+  }
+  else
+  {
+    prec =l;
+    for(i=0;i<pos-1 && prec!=NULL;i++)
+    {
+      prec = prec->next;
+    }
+
+    if(prec && prec->next)
+    {
+      l1 = prec->next;
+      prec->next = l1->next;
+      free(l1->value);
+      free(l1);
+    }
   }
 
   return l;
-
 }
 
-list tailList(list l)
+int removeList(list l,int pos)
 {
-  list temp;
-
-  if(l)
+  if(!l || l->first == NULL || l->size == 0 || pos>=sizeList(l))
   {
-    temp = l->next;
+    return 0;
   }
-  else
-  {
-    temp = NULL;
-  }
-
-  return temp;
-}
-
-item getFirst (list l)
-{
-  item e;
-  if(l)
-  {
-    e = l->value;
-  }
-  else
-  {
-    e = NULLITEM;
-  }
+  l->first = removeNode(l->first,pos);
+  l->size--;
+  return 1;
 }
 
 int sizeList (list l)
 {
-  int n = 0;
-
-  if(!l)
-  {
-    return n;
-  }
-
-  for(n = 0;!emptyList(l);n++)
-  {
-    l = tailList(l);
-  }
-
-  return n;
-
-}
-
-int posItem (list l, item val)
-{
-    if(emptyList(l))
-    {
-      return -1;
-    }
-
-    if(eq(getFirst(l),val))
-    {
-      return 0;
-    }
-    else
-    {
-      int ris = posItem(tailList(l),val);
-      if(ris==-1)
-      {
-        return -1;
-      }
-      else
-      {
-        return ris + 1;
-      }
-    }
-
+  return l->size;
 }
 
 item getItem (list l, int pos)
 {
+  struct node*l1 ;
   item e;
   int i;
 
@@ -119,15 +138,16 @@ item getItem (list l, int pos)
     return NULLITEM;
   }
 
+  l1=l->first;
 
-  for(i=0;i<pos && !emptyList(l);i++)
+  for(i=0;i<pos && l1;i++)
   {
-    l = tailList(l);
+    l1=l1->next;
   }
 
-  if(!emptyList(l))
+  if(l1)
   {
-    e=getFirst(l);
+    e=l1->value;
   }
   else
   {
@@ -139,16 +159,15 @@ item getItem (list l, int pos)
 
 list reverseList (list l)
 {
+  int i;
   list rev;
-  item val;
+  int size =sizeList(l);
 
   rev=newList();
 
-  while(!emptyList(l))
+  for(i=0;i<size;i++)
   {
-    val = getFirst(l);
-    rev = consList(val,rev);
-    l = tailList(l);
+  insertList(rev,i,getItem(l,size-(i+1)));
   }
 
   return rev ;
@@ -157,71 +176,18 @@ list reverseList (list l)
 
 void outputList (list l)
 {
-  item val;
-  while(!emptyList(l))
+  int i;
+  int size =sizeList(l);
+
+
+
+  printf("size:%d---------->",l->size);
+
+
+  for(i=0;i<size;i++)
   {
-    val = getFirst(l);
-    output_item(val);
+    output_item(getItem(l,i));
     printf("--->");
-    l = tailList(l);
   }
-  printf("nil\n");
-}
-
-list insertList(list l,int pos,item val)
-{
-  int i;
-  list l1,prec=l;
-
-  if(pos==0)
-  {
-    return consList(val,l);
-  }
-
-  for(i=0;i<pos-1&& prec; i++)
-  {
-    prec =prec->next;
-  }
-
-  if(!prec)
-  {
-    return l;
-  }
-
-  l1 = consList(val,prec->next);
-  prec->next = l1;
-
-  return l;
-}
-
-list removeList(list l,int pos)
-{
-  list l1,prec;
-  int i;
-
-  if(pos==0 && l)
-  {
-    l1=l;
-    l=tailList(l);
-    free(l1->value);
-    free(l1);
-  }
-  else
-  {
-    prec = l;
-    for(i=0;i<pos-1 && prec ;i++)
-    {
-      prec = prec->next;
-    }
-
-    if(prec && prec->next)
-    {
-      l1=prec->next;
-      prec->next = l1->next;
-      free(l1->value);
-      free(l1);
-    }
-  }
-
-  return l;
+  printf("nil");
 }
