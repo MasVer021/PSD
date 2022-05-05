@@ -100,7 +100,7 @@ item dequeue(queue q)
 queue reverseQueue(queue q)
 {
 
-  if(emptyQueue(q))
+  if(!q)
   {
     return NULL;
   }
@@ -160,6 +160,10 @@ void outputStack(queue q)
 
 queue clonaQueue(queue q)
 {
+  if(!q)
+  {
+    return NULL;
+  }
   queue q1;
   item it;
 
