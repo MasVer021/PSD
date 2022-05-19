@@ -90,7 +90,7 @@ Btree figlioDX(Btree T)
 
 void creafoglia(Btree T , node * foglia,int lato)
 {
-  if(lato == 0)
+  if(lato = 0)
   {
     T->left = foglia;
   }
