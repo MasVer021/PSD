@@ -10,7 +10,7 @@
 #define SIZE 100
 char* itoa(int num, char* buffer, int base);
 void valutaEspressione(Btree T,stack s);
-int calcolaValore(stack s);
+int valuta(Btree T);
 
 
 int main(void)
@@ -19,13 +19,12 @@ int main(void)
   Btree bt = newBtree();
   bt = consBtree("-",consBtree("*",consBtree("+",consBtree("5",NULL,NULL),consBtree("20",NULL,NULL)),consBtree("2",NULL,NULL)),consBtree("4",NULL,NULL));
 
-  stack s = newStack();
 
   outputTree(bt);
-  valutaEspressione(bt,s);
 
-  reverseStack(s);
-  printf("il valore dell'espressione è :%d\n", calcolaValore(s));
+
+
+  printf("il valore dell'espressione è :%d\n", valuta(bt));
 
 
   //insertNode(bt,'5');
@@ -48,8 +47,13 @@ void valutaEspressione(Btree T, stack s)
 
 }
 
-int calcolaValore(stack s)
+int valuta(Btree T)
 {
+
+  stack s = newStack();
+  valutaEspressione(T,s);
+  reverseStack(s);
+
   int i;
 
   char *a,*b,*o;
@@ -62,8 +66,6 @@ int calcolaValore(stack s)
 
       a = top(s);
       pop(s);
-      if(emptyStack(s))
-      break;
       b = top(s);
       pop(s);
       o = top(s);
@@ -91,7 +93,7 @@ int calcolaValore(stack s)
       }
 
       printf("=%s\n",r);
-      push(r,s);
+      if(!emptyStack(s))  push(r,s);
       printf("\n" );
   }
 
