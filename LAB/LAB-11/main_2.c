@@ -49,7 +49,7 @@ int main(void)
 
   //printf("%d",numeroDiArchi(T,6,15));
 
-  output_item(getItem(LCA(T,8,30)));
+  //output_item(getItem(LCA(T,30,8)));
 
   return 0;
 }
@@ -57,13 +57,20 @@ int main(void)
 
 BST LCA(BST T,item X,item Y)
 {
+  if(Y<X)
+  {
+    return LCA(T, Y, X);
+  }
+
   if(maggiore(getItem(T),Y))
   {
     return LCA(figlioSX(T), X, Y);
   }
 
   if(minore(getItem(T),X))
+  {
     return LCA(figlioDX(T), X, Y);
+  }
 
   return T;
 }
