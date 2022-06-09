@@ -121,7 +121,12 @@ void outputStack(queue q)
 
 void cancFinoItem(item val, queue q)
 {
-  while(!eq(dequeue(q),val) && !emptyQueue(q));
+
+
+  while(!eq(q->head->value,val) && !emptyQueue(q))
+  {
+    dequeue(q);
+  }
 }
 
 queue fondiDaItem(item el, queue q1,queue q2)
@@ -139,6 +144,16 @@ queue fondiDaItem(item el, queue q1,queue q2)
   {
     cancFinoItem(el,q1);
     cancFinoItem(el,q2);
+
+    if(!emptyQueue(q1))
+    {
+      dequeue(q1);
+    }
+    if(!emptyQueue(q2))
+    {
+      dequeue(q2);
+    }
+
 
     tmp =q1->head;
 
