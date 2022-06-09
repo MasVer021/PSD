@@ -19,7 +19,7 @@ void input_item(item * it)
 
 void output_item(item it)
 {
-    printf("%d",it);
+    printf("%2d",it);
 }
 
 int minore (item a ,item b)

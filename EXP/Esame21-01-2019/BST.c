@@ -213,18 +213,18 @@ void outputBST(BST T)
 {
 
   int i = altezza(T);
-  char *s = malloc(pow(2,i-1)-1);
+  char *s = malloc(pow(2,i)-1);
 
   for(int j=0;j<=i;j++)
   {
     for(int x=0;x<pow(2,i-j-1)-1;x++)
     {
-      printf(" ");
+      printf("  ");
     }
     *s='\0';
     for(int x=0;x<pow(2,i-j)-1;x++)
     {
-      strcat(s," ");
+      strcat(s,"  ");
     }
 
     ricercaNodiK(T,j,s);
